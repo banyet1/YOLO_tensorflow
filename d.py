@@ -31,20 +31,22 @@ class YOLO_TF:
 		self.argv_parser(argvs)
 		self.build_networks()
 		if self.fromfile is not None: self.detect_from_file(self.fromfile)
+                #print("Folder:", self.fromfolder)
 		if self.fromfolder is not None:
 			filename_list = os.listdir(self.fromfolder)
 			for filename in filename_list:
 				self.overall_pics+=1
-				self.detect_from_file(self.fromfolder+"/"+filename)
-			print("Fooling_rate:",(self.overall_pics-self.detected)/self.overall_pics)
+				self.detect_from_file(self.fromfolder+filename)
+                                #print("image:", self.fromfolder+filename)
+			#print("Fooling_rate:",(self.overall_pics-self.detected)/self.overall_pics)
 
 	def argv_parser(self,argvs):
 		for i in range(1,len(argvs),2):
-			if argvs[i] == '-fromfile' : self.fromfile = argvs[i+1]
+			#if argvs[i] == '-fromfile' : self.fromfile = argvs[i+1]
 			if argvs[i] == '-fromfolder' : 
 				self.fromfolder = argvs[i+1]
-			else:
-				self.fromfolder = None
+			#else:
+			#	self.fromfolder = None
 			if argvs[i] == '-tofile_img' : self.tofile_img = argvs[i+1] ; self.filewrite_img = True
 			if argvs[i] == '-tofile_txt' : self.tofile_txt = argvs[i+1] ; self.filewrite_txt = True
 			if argvs[i] == '-imshow' :
@@ -129,7 +131,7 @@ class YOLO_TF:
 		ip = tf.add(tf.matmul(inputs_processed,weight),biases)
 		return tf.maximum(self.alpha*ip,ip,name=str(idx)+'_fc')
 
-	def detect_from_cvmat(self,img):
+	def detect_from_cvmat(self,img,filename):
 		s = time.time()
 		self.h_img,self.w_img,_ = img.shape
 		img_resized = cv2.resize(img, (448, 448))
@@ -140,15 +142,15 @@ class YOLO_TF:
 		in_dict = {self.x: inputs}
 		net_output = self.sess.run(self.fc_32,feed_dict=in_dict)
 		self.result = self.interpret_output(net_output[0])
-		self.show_results(img,self.result)
+		self.show_results(img,self.result,filename)
 		strtime = str(time.time()-s)
-		if self.disp_console : print 'Elapsed time : ' + strtime + ' secs' + '\n'
+		#if self.disp_console : print 'Elapsed time : ' + strtime + ' secs' + '\n'
 
 	def detect_from_file(self,filename):
-		if self.disp_console : print 'Detect from ' + filename
+		#if self.disp_console : print 'Detect from ' + filename
 		img = cv2.imread(filename)
 		#img = misc.imread(filename)
-		self.detect_from_cvmat(img)
+		self.detect_from_cvmat(img,filename)
 
 	def detect_from_crop_sample(self):
 		self.w_img = 640
@@ -216,10 +218,12 @@ class YOLO_TF:
 
 		return result
 
-	def show_results(self,img,results):
+        #ftxt = open(self.tofile_txt, 'a')
+
+	def show_results(self,img,results,filename):
 		img_cp = img.copy()
 		if self.filewrite_txt :
-			ftxt = open(self.tofile_txt,'w')
+			ftxt = open(self.tofile_txt,'a')
 		class_results_set = set()
 		for i in range(len(results)):
 			x = int(results[i][1])
@@ -227,13 +231,13 @@ class YOLO_TF:
 			w = int(results[i][3])//2
 			h = int(results[i][4])//2
 			class_results_set.add(results[i][0])
-			if self.disp_console : print '    class : ' + results[i][0] + ' , [x,y,w,h]=[' + str(x) + ',' + str(y) + ',' + str(int(results[i][3])) + ',' + str(int(results[i][4]))+'], Confidence = ' + str(results[i][5])
+			#if self.disp_console : print '    class : ' + results[i][0] + ' , [x,y,w,h]=[' + str(x) + ',' + str(y) + ',' + str(int(results[i][3])) + ',' + str(int(results[i][4]))+'], Confidence = ' + str(results[i][5])
 			if self.filewrite_img or self.imshow:
 				cv2.rectangle(img_cp,(x-w,y-h),(x+w,y+h),(0,255,0),2)
 				cv2.rectangle(img_cp,(x-w,y-h-20),(x+w,y-h),(125,125,125),-1)
 				cv2.putText(img_cp,results[i][0] + ' : %.2f' % results[i][5],(x-w+5,y-h-7),cv2.FONT_HERSHEY_SIMPLEX,0.5,(0,0,0),1)
-			if self.filewrite_txt :				
-                            ftxt.write(self.fromfile + ':' + results[i][0] + ',' + str(x) + ',' + str(y) + ',' + str(w) + ',' + str(h)+',' + str(results[i][5]) + '\n')
+                        if 1 : #self.filewrite_txt :				
+                            print(filename + ',' + results[i][0] + ',' + str(x) + ',' + str(y) + ',' + str(w) + ',' + str(h)+',' + str(results[i][5]) )
 		if "person" in class_results_set:
 			self.detected+=1
 			# new_img_path=self.fromfolder[:-14]+"test7/selected_ImageNet_person/"+str(self.detected)+"_white_margin_orgin_pic.jpg"

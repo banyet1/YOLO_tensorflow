@@ -1,0 +1,1 @@
+CUDA_VISIBLE_DEVICES=3 python d.py -fromfolder /root/test/ -imshow 0 |grep person|tee 5.txt
