@@ -1,1 +1,36 @@
-/root/test/0041553506128_26260.jpg,person,377,481,214,450,0.9849433898925781
+Building YOLO_small graph...
+    Layer  1 : Type = Conv, Size = 7 * 7, Stride = 2, Filters = 64, Input channels = 3
+    Layer  2 : Type = Pool, Size = 2 * 2, Stride = 2
+    Layer  3 : Type = Conv, Size = 3 * 3, Stride = 1, Filters = 192, Input channels = 64
+    Layer  4 : Type = Pool, Size = 2 * 2, Stride = 2
+    Layer  5 : Type = Conv, Size = 1 * 1, Stride = 1, Filters = 128, Input channels = 192
+    Layer  6 : Type = Conv, Size = 3 * 3, Stride = 1, Filters = 256, Input channels = 128
+    Layer  7 : Type = Conv, Size = 1 * 1, Stride = 1, Filters = 256, Input channels = 256
+    Layer  8 : Type = Conv, Size = 3 * 3, Stride = 1, Filters = 512, Input channels = 256
+    Layer  9 : Type = Pool, Size = 2 * 2, Stride = 2
+    Layer  10 : Type = Conv, Size = 1 * 1, Stride = 1, Filters = 256, Input channels = 512
+    Layer  11 : Type = Conv, Size = 3 * 3, Stride = 1, Filters = 512, Input channels = 256
+    Layer  12 : Type = Conv, Size = 1 * 1, Stride = 1, Filters = 256, Input channels = 512
+    Layer  13 : Type = Conv, Size = 3 * 3, Stride = 1, Filters = 512, Input channels = 256
+    Layer  14 : Type = Conv, Size = 1 * 1, Stride = 1, Filters = 256, Input channels = 512
+    Layer  15 : Type = Conv, Size = 3 * 3, Stride = 1, Filters = 512, Input channels = 256
+    Layer  16 : Type = Conv, Size = 1 * 1, Stride = 1, Filters = 256, Input channels = 512
+    Layer  17 : Type = Conv, Size = 3 * 3, Stride = 1, Filters = 512, Input channels = 256
+    Layer  18 : Type = Conv, Size = 1 * 1, Stride = 1, Filters = 512, Input channels = 512
+    Layer  19 : Type = Conv, Size = 3 * 3, Stride = 1, Filters = 1024, Input channels = 512
+    Layer  20 : Type = Pool, Size = 2 * 2, Stride = 2
+    Layer  21 : Type = Conv, Size = 1 * 1, Stride = 1, Filters = 512, Input channels = 1024
+    Layer  22 : Type = Conv, Size = 3 * 3, Stride = 1, Filters = 1024, Input channels = 512
+    Layer  23 : Type = Conv, Size = 1 * 1, Stride = 1, Filters = 512, Input channels = 1024
+    Layer  24 : Type = Conv, Size = 3 * 3, Stride = 1, Filters = 1024, Input channels = 512
+    Layer  25 : Type = Conv, Size = 3 * 3, Stride = 1, Filters = 1024, Input channels = 1024
+    Layer  26 : Type = Conv, Size = 3 * 3, Stride = 2, Filters = 1024, Input channels = 1024
+    Layer  27 : Type = Conv, Size = 3 * 3, Stride = 1, Filters = 1024, Input channels = 1024
+    Layer  28 : Type = Conv, Size = 3 * 3, Stride = 1, Filters = 1024, Input channels = 1024
+    Layer  29 : Type = Full, Hidden = 512, Input dimension = 50176, Flat = 1, Activation = 1
+    Layer  30 : Type = Full, Hidden = 4096, Input dimension = 512, Flat = 0, Activation = 1
+    Layer  32 : Type = Full, Hidden = 1470, Input dimension = 4096, Flat = 0, Activation = 0
+Loading complete!
+
+/root/test/0041553506128_26260.jpg,person,377,481,214,450,0.9849433898925781,1
+/root/test/23595067_1961799174043507_248112177561468928_n.jpg,bird,538,665,555,664,0.5445066094398499,2
